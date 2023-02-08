@@ -24,7 +24,6 @@ import com.example.bledemo.utils.Alert
 import java.lang.reflect.Method
 import java.util.*
 
-
 class BluetoothListFragment : Fragment() {
 
     private val binding: FragmentBluetoothListBinding by lazy {
@@ -120,6 +119,7 @@ class BluetoothListFragment : Fragment() {
     private fun setupRecycelerView() {
         binding.rvBlList.layoutManager = LinearLayoutManager(requireContext())
         blAdapter = BluetoothListAdapter {
+            Alert("Device Connecting...")
             pairDevice(arrDevices[it])
         }
         binding.rvBlList.adapter = blAdapter
@@ -219,15 +219,17 @@ class BluetoothListFragment : Fragment() {
                     when(newState){
 
                         BluetoothProfile.STATE_CONNECTED -> {
-                            Log.e("TAG", "Connected: " )
+                            Alert("Divice Connected")
                         }
 
                         BluetoothProfile.STATE_DISCONNECTED -> {
-                            scanBL()
-                            Log.e("TAG", "DisConnected: " )
+                            Alert("Divice Disconnected")
                         }
                     }
 
+                }else{
+                    binding.progressBar.visibility = View.GONE
+                    Alert("Device not available")
                 }
 
             }
